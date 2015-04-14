@@ -4,9 +4,7 @@ var bases = require('bases');
 var url = require('url');
 var app = express();
 var Db = require('mongodb').Db,
-    MongoClient = require('mongodb').MongoClient,
-    Server = require('mongodb').Server,
-    assert = require('assert');
+    Server = require('mongodb').Server;
 app.use(express.static(__dirname + '/public', {
     maxAge: 20
 }));
@@ -18,7 +16,10 @@ app.use(bodyParser.urlencoded({
 var db = new Db('test', new Server('localhost', 27017));
 // Establish connection to db
 db.open(function(err, db) {
-    db.createCollection('url_db', function(err, collection) {});
+    if(err)console.log(err);
+    db.createCollection('url_db', function(err) {
+    if(err)console.log(err);
+    });
 });
 app.post('/request', function(req, res) {
     var link = req.body.link;
@@ -32,6 +33,7 @@ app.post('/request', function(req, res) {
         collection.find({
             "s_url": parseurl
         }).toArray(function(err, item) {
+          if(err)console.log(err);
             //console.log(item.length);
             if (item.length == 1) {
                 res.send(item[0].l_url);
@@ -41,9 +43,11 @@ app.post('/request', function(req, res) {
         });
     } else {
         collection.count(function(err, count) {
+          if(err)console.log(err);
             collection.find({
                 "l_url": link
             }).toArray(function(err, item) {
+              if(err)console.log(err);
                 if (item.length == 1) {
                     res.send("Already Created <br/> http://localhost:3000/" + item[0].s_url);
                 } else {
@@ -71,6 +75,7 @@ app.route("/:url").all(function(req, res) {
     collection.find({
         "s_url": req_url
     }).toArray(function(err, item) {
+      if(err)console.log(err);
         if (item.length == 1) {
             var visits=Number(item[0].visits);
             collection.update({"s_url": req_url,"visits":visits}, {$set:{"s_url": req_url,"visits":visits+1}});
@@ -83,9 +88,11 @@ app.route("/:url").all(function(req, res) {
         }
     });
 });
-app.get('/result/urls', function(req, res) {
+app.get('/result/urls', function(req,res) {
+    console.log("Ajax Request"+req.url);
     var collection = db.collection('url_db');
     collection.find({}).sort({"visits":-1}).limit(10).toArray(function(err,data){
+      if(err) console.log(err);
         res.send(data);
     });
 });
