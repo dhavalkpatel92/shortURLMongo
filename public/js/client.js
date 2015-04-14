@@ -5,13 +5,14 @@ $(document).ready(function() {
         dataType: 'json',
         contentType: "application/json; charset=utf-8",
         success: function(data) {
-            //console.log(data);
-            $("#result").html("<h1>Top 10 URLs</h1>");
+            $("#result").html("<table><tr><td><h1>Top 10 URLs </h1></td><td><h1>Visits</h1></td></tr>");
+
             var arrayLength = data.length;
             for (var i = 0; i < arrayLength; i++) {
-                //console.log(data[i].s_url);
-                $("#result").append("<a href='http://localhost:3000/" + data[i].s_url + "'>http://localhost:3000/" + data[i].s_url + "</a><br/>");
+                $("#result").append("<tr><td><a href='http://localhost:3000/" + data[i].s_url + "'>http://localhost:3000/" + data[i].s_url + "</a></td><td><strong>"+data[i].visits+"</strong></td></tr>");
+                //$("#result").append(");
             }
+            $("#result").append("</table>")
         }
     });
 });

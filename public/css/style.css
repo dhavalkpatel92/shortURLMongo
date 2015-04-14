@@ -1,37 +1,9 @@
-#buttons_area {
-    margin-top: 70px;
+tr td:first-child{
+    margin-left: 0em;
 }
-#result {
-    margin-top: 20px;
-}
-.renderjson a {
-    text-decoration: none;
-}
-.renderjson .disclosure {
-    color: crimson;
-    font-size: 150%;
-}
-.renderjson .syntax {
-    color: grey;
-}
-.renderjson .string {
-    color: darkred;
-}
-.renderjson .number {
-    color: darkcyan;
-}
-.renderjson .boolean {
-    color: blueviolet;
-}
-.renderjson .key {
-    color: darkblue;
-}
-.renderjson .keyword {
-    color: blue;
-}
-.renderjson .object.syntax {
-    color: lightseagreen;
-}
-.renderjson .array.syntax {
-    color: orange;
+td
+{
+    width: 230px;
+    float: left;
+    margin-left: 5em;
 }
